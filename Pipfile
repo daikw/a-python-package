@@ -1,0 +1,12 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+nims-hdf-libs = {ref = "feat/as-a-python-package", git = "ssh://git@github.com/karakuri-ai/nims-hdf-libs"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.9.5"

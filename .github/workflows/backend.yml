@@ -1,0 +1,30 @@
+name: Run Python Lint (& Tests)
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9.5
+          cache: 'pipenv'
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pipenv
+      - name: Install dependencies
+        env:
+          MACHINE_USER: daikw
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          touch ~/.netrc
+          echo "machine github.com" > ~/.netrc
+          echo "login $MACHINE_USER" >> ~/.netrc
+          echo "password $ACCESS_TOKEN" >> ~/.netrc
+          chmod 600 ~/.netrc
+          pipenv sync --dev
+      - name: Run lint with black
+        uses: psf/black@stable
