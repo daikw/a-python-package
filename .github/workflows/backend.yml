@@ -17,13 +17,12 @@ jobs:
           python -m pip install pipenv
       - name: Install dependencies
         env:
-          MACHINE_USER: daikw
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
           touch ~/.netrc
           echo "machine github.com" > ~/.netrc
-          echo "login $MACHINE_USER" >> ~/.netrc
-          echo "password $ACCESS_TOKEN" >> ~/.netrc
+          echo "login $ACCESS_TOKEN" >> ~/.netrc
+          echo "password x-oauth-basic" >> ~/.netrc
           chmod 600 ~/.netrc
           pipenv sync --dev
       - name: Run lint with black
